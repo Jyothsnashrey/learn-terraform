@@ -1,19 +1,19 @@
 resource "aws_instance" "instances" {
-  count                  = length(var.components)
+ for_each              = var.components
   ami                    = data.aws_ami.centos8.image_id
-  instance_type          = var.instance_type
+  instance_type          = lookup(each.value,"instance_type", "t2.micro ")
   vpc_security_group_ids = var.vpc_security_group_ids
 
   tags = {
-    Name = element(var.components, count.index)
+    Name = lookup(each.value,"name", null)
   }
 }
 resource "aws_route53_record" "records" {
-  count   = length(var.components)
+for_each  = var.components
   zone_id = var.zone_id
-  name    = "${element(var.components, count.index)}-dev"
+  name    = lookup(each.value,"name", null )
   type    = "A"
   ttl     = 30
-  records = [element(aws_instance.instances.*.private_ip,count.index)]
+  records = [lookup(lookup(aws_instace.instances, each.key, null ), "private_ip", null)]
 }
 

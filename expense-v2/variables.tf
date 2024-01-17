@@ -12,5 +12,18 @@ variable "zone_id" {
 }
 
 variable "components" {
-  default = ["frontend","backend","mysql"]
+  default = {
+    frontend={
+      name ="frontend"
+      instance_type ="t3.micro"
+    }
+    frontend={
+      name ="backend"
+      instance_type ="t3.micro"
+    }
+    frontend={
+      name ="mysql"
+      instance_type ="t3.small"
+    }
+  }
 }
