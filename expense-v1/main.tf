@@ -7,6 +7,13 @@ resource "aws_instance" "frontend" {
     Name = "frontend-dev"
   }
 }
+resource "aws_route53_record" "frontend" {
+  zone_id = Z0280752N15KXNCY0H6Y
+  name    = "frontend_dev"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.frontend.private_ip]
+}
 
 resource "aws_instance" "backend" {
   ami                    = "ami-0f3c7d07486cad139"
@@ -17,6 +24,14 @@ resource "aws_instance" "backend" {
     Name = "backend-dev"
   }
 }
+resource "aws_route53_record" "backend" {
+  zone_id = Z0280752N15KXNCY0H6Y
+  name    = "backend_dev"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.backend.private_ip]
+}
+
 
 resource "aws_instance" "mysql" {
   ami                    = "ami-0f3c7d07486cad139"
@@ -26,4 +41,11 @@ resource "aws_instance" "mysql" {
   tags = {
     Name = "mysql-dev"
   }
+}
+resource "aws_route53_record" "mysql" {
+  zone_id = Z0280752N15KXNCY0H6Y
+  name    = "mysql_dev"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.mysql.private_ip]
 }
