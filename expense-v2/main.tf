@@ -14,6 +14,8 @@ for_each  = var.components
   name    = lookup(each.value,"name", null )
   type    = "A"
   ttl     = 30
-  records = [lookup(lookup(aws_instace.instances, each.key, null ), "private_ip", null)]
+  records = [lookup(lookup(aws_instance.instances, each.key, null ), "private_ip", null)]
+  # you can also use this alternate for look up
+ /* records = [aws_instance.instances[each.key].private_ip]*/
 }
 
