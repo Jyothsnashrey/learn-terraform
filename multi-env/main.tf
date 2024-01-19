@@ -4,7 +4,6 @@ terraform {
 
 resource "null_resource" "test"{}
 
-output "test"
-{
+output "test" {
   value = var.test
 }
